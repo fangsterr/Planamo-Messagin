@@ -8,8 +8,8 @@ function pub_and_sub() {
     });
 
     // publish a message
-    exchange.publish(queue.name, {body: 'Hello CloudAMQP!'}); 
-    console.log(process.env);
+    exchange.publish(queue.nalrmnodme, {body: 'Hello CloudAMQP!'}); 
+    //console.log(process.env);
   });
 }
 
