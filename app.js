@@ -15,14 +15,22 @@ function setup() {
 
   var exchange = conn.exchange('cf-demo', {'type': 'fanout', durable: false}, function() {
 
-    var queue = conn.queue('', {durable: false, exclusive: true},
+    var queue = conn.queue('my-queue', {durable: false, exclusive: false},
     function() {
       queue.subscribe(function(msg) {
-        messages.push(htmlEscape(msg.body));
+        console.log(msg);
+        if (msg.data) {
+            console.log(msg.data.toString());
+            message = msg.data.toString();
+        } else {
+            message = msg.body;
+        }
+        messages.push(htmlEscape(message));
         if (messages.length > 10) {
           messages.shift();
         }
       });
+      console.log(exchange.name);
       queue.bind(exchange.name, '');
     });
     queue.on('queueBindOk', function() { httpServer(exchange); });
